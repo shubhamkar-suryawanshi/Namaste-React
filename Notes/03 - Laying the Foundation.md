@@ -112,7 +112,8 @@ A variable in JS is React Element if we use JSX
 ```
 const heading = <h1 id='hard'>Hello Sweety</h1>
 ```
-
+- HTML Element - `<h1>Head</h1>`
+- JS Element - a variable 
 ---
 
 # React Components
@@ -240,5 +241,4 @@ root.render(<HeaderComponent />);
 - Why we need React Component as we have elements -> to use props and all such functionalities
 - at the end API is function only, its a jargan eg. createElement API
 - {{ means object}} inside react component, first bracket is for telling react that it is JS code and second bracket is for object.
-- this will also works
-  `root.render(HeaderComponent ());`
+- this will also works `root.render(HeaderComponent ());` but will not show as react component in react extention.
