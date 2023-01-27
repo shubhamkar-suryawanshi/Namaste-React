@@ -1,4 +1,49 @@
 body {
   background-color: aquamarine;
   text-align: center;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1%;
+  border: 1px solid black;
+  align-items: center;
+}
+
+.logo > img {
+  width: 100px;
+}
+
+.header > ul {
+  list-style-type: none;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.header > button {
+  width: 100px;
+  height: 35px;
+  border-radius: 25px;
+}
+
+/* Body styling */
+.body {
+  display: flex;
+  padding: 10px;
+}
+
+.card {
+  border: 1px solid black;
+  margin: 10px;
+}
+
+.card > img {
+  width: 200px;
+  padding: 5px;
 }
