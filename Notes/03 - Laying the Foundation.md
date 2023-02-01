@@ -217,10 +217,30 @@ root.render(<HeaderComponent />);
 ## NOTE: 
 1. Whenever you are writing JSX, just put `{}` and write any piece of JavaScript code inside it
 2. JSX prevent us from the ciber attack, called sanitisation.
+3. It is possible to pass Component inside element
 
+```
+const Footer = () => {
+  return (
+    <div>
+      <hr />
+      <small>@C This is a app Footer</small>
+    </div>
+  );
+};
+
+const main = (
+  <h1>
+    <Footer />
+  </h1>
+);
+
+const root = ReactDOM.createRoot(document.querySelector('#root'));
+root.render(main);
+```
 ## What is Babel?
 
-- Babel is a JavaScript compiler
+- Babel is a JavaScript transcompiler convert JSX to React.createElement
 - Babel is a toolchain that is mainly used to convert ECMAScript 2015+ code into a backwards compatible version of JavaScript in current and older browsers or environments. Here are the main things Babel can do for you:
   - Transform syntax
   - Polyfill features that are missing in your target environment (through a third-party polyfill such as core-js)

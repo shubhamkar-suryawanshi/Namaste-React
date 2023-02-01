@@ -68,6 +68,7 @@ const person = {
 
 function myInfo(para) {
   //para is called 'props' in React
+  console.log(para)
   console.log(`My name is ${para.name} and I'm ${para.age} years old (:)`);
 }
 
@@ -83,6 +84,12 @@ myInfo(person); // argument is person object
 myInfo1(person);
 
 <!-- Output -->
+Object { 
+  address : {street: 'Station Road', city: 'Kolhapur'}
+  age : 28
+  name : "Surya"
+  [[Prototype]] : Object
+}
 Surya
 28
 My name is Surya and I'm 28 years old (:)
@@ -123,7 +130,7 @@ myInfo(myName);
 
 <!-- Output -->
 Surya
-trial.js:13 My name is Surya
+My name is Surya
 ```
 printing the data in props to web
 ```
@@ -218,69 +225,74 @@ Surya
 Lets see how the code is optimized
 1. Normal Code
 ```
-const RestaurantCarts = (props) => {
-  console.log(props);
+const RestaurantCard = () => {
   return (
-    <div className="restaurant-cart">
-      <img src={restoList[0].img} alt={restoList[0].name} />
-      <h3>{restoList[0].name}</h3>
-      <h4>{restoList[0].price}</h4>
-      <h3>{restoList[0].rating}</h3>
+    <div className="card">
+      <img src={IMG_CDN_URL + Restaurants[0].data.cloudinaryImageId} />
+      <h2>{Restaurants[0].data.name} </h2>
+      <h3>{Restaurants[0].data.cuisines.join(', ')}</h3>
+      <h3>{Restaurants[0].data.avgRating} stars</h3>
     </div>
   );
 };
 
-and body is
-const Body = () => {
-  return (
-    <div className="body">
-      <RestaurantCarts restaurent={restoList[0]} />
-      <RestaurantCarts restaurent={restoList[1]} />
-      <RestaurantCarts restaurent={restoList[2]} />
-      <RestaurantCarts restaurent={restoList[3]} />
-    </div>
-  );
-};
-
-<!-- for my understanding -->
-here attribute/argument is restaurent and it stores restolist[0-4]
+<!--  Similar kind of element containing 1 card at every point -->
 ```
 2. By using props
 ```
-const RestaurantCarts = (props) => {
+const RestaurantCard = (props) => {
   return (
-    <div className="restaurant-cart">
-      <img src={props.restaurent.img} alt={props.restaurent.name} />
-      <h3>{props.restaurent.name}</h3>
-      <h4>{props.restaurent.price}</h4>
-      <h3>{props.restaurent.rating}</h3>
+    <div className="card">
+      <img
+        src={IMG_CDN_URL + props.resto.data.cloudinaryImageId}
+        alt={props.resto.data.name}
+      />
+      <h2>{props.resto.data.name} </h2>
+      <h4>{props.resto.data.cuisines.join(', ')}</h4>
+      <h4>{props.resto.data.avgRating} stars</h4>
+    </div>
+  );
+};
+
+const Body = () => {
+  return (
+    <div className="body">
+      <RestaurantCard resto={Restaurants[0]} />
+      <RestaurantCard resto={Restaurants[1]} />
+      <RestaurantCard resto={Restaurants[2]} />
+      <RestaurantCard resto={Restaurants[3]} />
+      <RestaurantCard resto={Restaurants[4]} />
+      <RestaurantCard resto={Restaurants[5]} />
     </div>
   );
 };
 ```
-3. Destructuring props
+3. Destructuring props - as 'props' word is common, removing it with destructuring
 ```
-const RestaurantCarts = ({ restaurent }) => {
+const RestaurantCard = ({ resto }) => {
   return (
-    <div className="restaurant-cart">
-      <img src={restaurent.img} alt={restaurent.name} />
-      <h3>{restaurent.name}</h3>
-      <h4>{restaurent.price}</h4>
-      <h3>{restaurent.rating}</h3>
+    <div className="card">
+      <img
+        src={IMG_CDN_URL + resto.data.cloudinaryImageId}
+        alt={resto.data.name}
+      />
+      <h2>{resto.data.name} </h2>
+      <h4>{resto.data.cuisines.join(', ')}</h4>
+      <h4>{resto.data.avgRating} stars</h4>
     </div>
   );
 };
 ```
-4. Destructring again
+4. Destructring again - resto.data is common, removing it by destructuring again
 ```
-const RestaurantCarts = ({ restaurent }) => {
-  const { img, name, price, rating } = restaurent;
+const RestaurantCard = ({ resto }) => {
+  const { name, cuisines, cloudinaryImageId, avgRating } = resto.data;
   return (
-    <div className="restaurant-cart">
-      <img src={img} alt={name} />
-      <h3>{name}</h3>
-      <h4>{price}</h4>
-      <h3>{rating}</h3>
+    <div className="card">
+      <img src={IMG_CDN_URL + cloudinaryImageId} alt={name} />
+      <h2>{name} </h2>
+      <h4>{cuisines.join(', ')}</h4>
+      <h4>{avgRating} stars</h4>
     </div>
   );
 };
@@ -290,53 +302,23 @@ and body will remains same untill this operation
 const Body = () => {
   return (
     <div className="body">
-      <RestaurantCarts restaurent={restoList[0]} />
-      <RestaurantCarts restaurent={restoList[1]} />
-      <RestaurantCarts restaurent={restoList[2]} />
-      <RestaurantCarts restaurent={restoList[3]} />
+      <RestaurantCard resto={Restaurants[0]} />
+      <RestaurantCard resto={Restaurants[1]} />
+      <RestaurantCard resto={Restaurants[2]} />
+      <RestaurantCard resto={Restaurants[3]} />
+      <RestaurantCard resto={Restaurants[4]} />
+      <RestaurantCard resto={Restaurants[5]} />
     </div>
   );
 };
 ```
-5. One more step ahead
+5. Destrcting as params - here the problem is, we have to write each property as props in Parent component 
 ```
-Destrcting level up
-
-const RestaurantCarts = ({ img, name, price, rating }) => {
-  // const { img, name, price, rating } = restaurent;
+const RestaurantCard = ({ name, cloudinaryImageId }) => {
   return (
-    <div className="restaurant-cart">
-      <img src={img} alt={name} />
-      <h3>{name}</h3>
-      <h4>{price}</h4>
-      <h3>{rating}</h3>
-    </div>
-  );
-};
-
-const Body = () => {
-  return (
-    <div className="body">
-      <RestaurantCarts name={restoList[0].name} img={restoList[0].img} />
-      <RestaurantCarts name={restoList[1].name} img={restoList[1].img} />
-      <RestaurantCarts name={restoList[2].name} img={restoList[2].img} />
-      <RestaurantCarts name={restoList[3].name} img={restoList[3].img} />
-    </div>
-  );
-};
-```
-6. ES6
-```
-// Level up again with ES6
-
-const RestaurantCarts = ({ img, name, price, rating }) => {
-  // const { img, name, price, rating } = restaurent;
-  return (
-    <div className="restaurant-cart">
-      <img src={img} alt={name} />
-      <h3>{name}</h3>
-      <h4>{price}</h4>
-      <h3>{rating}</h3>
+    <div className="card">
+      <img src={IMG_CDN_URL + cloudinaryImageId} alt={name} />
+      <h2>{name} </h2>
     </div>
   );
 };
@@ -344,21 +326,51 @@ const RestaurantCarts = ({ img, name, price, rating }) => {
 const Body = () => {
   return (
     <div className="body">
-      <RestaurantCarts {...restoList[0]} />
-      <RestaurantCarts {...restoList[1]} />
-      <RestaurantCarts {...restoList[2]} />
-      <RestaurantCarts {...restoList[3]} />
+      <RestaurantCard
+        name={Restaurants[0].data.name}
+        cloudinaryImageId={Restaurants[0].data.cloudinaryImageId}
+      />
+      <RestaurantCard
+        name={Restaurants[1].data.name}
+        cloudinaryImageId={Restaurants[1].data.cloudinaryImageId}
+      />
     </div>
   );
 };
 ```
-7. Get ready for beast
+6. ES6 Rest operator, as restaurant[].data is array
+```
+const RestaurantCard = ({ name, cuisines, cloudinaryImageId, avgRating }) => {
+  return (
+    <div className="card">
+      <img src={IMG_CDN_URL + cloudinaryImageId} alt={name} />
+      <h2>{name} </h2>
+      <h4>{cuisines.join(', ')}</h4>
+      <h4>{avgRating} stars</h4>
+    </div>
+  );
+};
+
+const Body = () => {
+  return (
+    <div className="body">
+      <RestaurantCard {...Restaurants[0].data} />
+      <RestaurantCard {...Restaurants[1].data} />
+      <RestaurantCard {...Restaurants[2].data} />
+      <RestaurantCard {...Restaurants[3].data} />
+      <RestaurantCard {...Restaurants[4].data} />
+      <RestaurantCard {...Restaurants[5].data} />
+    </div>
+  );
+};
+```
+7. Get ready for beast - Always map the array (I mean, here data present in the form of array in Restaurants so map the Restaurants)
 ```
 const Body = () => {
   return (
     <div className="body">
-      {restoList.map((resto) => (
-        <RestaurantCarts key={resto.price} {...resto} />
+      {Restaurants.map((r) => (
+        <RestaurantCard key={r.data.id} {...r.data} />
       ))}
     </div>
   );
@@ -401,6 +413,76 @@ const Body = () => {
 - why we dont use index as key?
 - in object, the index is not fixed so not use keys
 ---
+
+My Code
+```
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { Restaurants, IMG_CDN_URL } from './constants';
+
+const Header = () => {
+  return (
+    <div className="header">
+      <div className="logo">
+        <img
+          src="https://storage.googleapis.com/shy-pub/39943/1622739779895_41546_logo.jpg"
+          alt="logo"
+        />
+      </div>
+      <ul className="list">
+        <li>About</li>
+        <li>Contact</li>
+        <li>Cart</li>
+      </ul>
+      <button className="header-btn">Login</button>
+    </div>
+  );
+};
+
+const RestaurantCard = ({ name, cuisines, cloudinaryImageId, avgRating }) => {
+  return (
+    <div className="card">
+      <img src={IMG_CDN_URL + cloudinaryImageId} alt={name} />
+      <h2>{name} </h2>
+      <h4>{cuisines.join(', ')}</h4>
+      <h4>{avgRating} stars</h4>
+    </div>
+  );
+};
+
+const Body = () => {
+  return (
+    <div className="body">
+      {Restaurants.map((r) => (
+        <RestaurantCard key={r.data.id} {...r.data} />
+      ))}
+    </div>
+  );
+};
+
+const Footer = () => {
+  return (
+    <div>
+      <hr />
+      <small>@C This is a app Footer</small>
+    </div>
+  );
+};
+
+const AppLayout = () => {
+  return (
+    <React.Fragment>
+      <Header />
+      <Body />
+      <Footer />
+    </React.Fragment>
+  );
+};
+
+const root = ReactDOM.createRoot(document.querySelector('#root'));
+root.render(<AppLayout />);
+```
+
 
 # Finance
 
