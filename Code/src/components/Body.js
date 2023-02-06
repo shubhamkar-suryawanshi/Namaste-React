@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Restaurants } from '../constants';
 import RestaurantCard from './RestaurantCard';
 import Shimmer from './Shimmer';
@@ -7,7 +8,6 @@ const filterData = (inputValue, list) => {
   const filterD = list.filter((restos) =>
     restos.data.name.toLowerCase().includes(inputValue.toLowerCase())
   );
-
   return filterD;
 };
 
@@ -26,7 +26,7 @@ const Body = () => {
       'https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING'
     );
     const json = await data.json();
-    console.log(json);
+    // console.log(json);
     setAllList(json.data.cards[2].data.data.cards);
     setFilteredList(json.data.cards[2].data.data.cards);
   }
@@ -55,10 +55,19 @@ const Body = () => {
       >
         Search
       </button>
-      <div className="body">
+      {/*<div className="body">
         {filteredList.map((r) => (
           <RestaurantCard key={r.data.id} {...r.data} />
         ))}
+        </div>*/}
+      <div className="body">
+        {filteredList.map((r) => {
+          return (
+            <Link to={'/restaurant/' + r.data.id} key={r.data.id}>
+              <RestaurantCard {...r.data} />
+            </Link>
+          );
+        })}
       </div>
     </React.Fragment>
   );

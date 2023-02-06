@@ -1,4 +1,3 @@
-
 # Finding the Path
 
 ## Notes
@@ -105,6 +104,15 @@ root.render(<RouterProvider router={appRouter} />);
 path:'restaurant/:id'
 ```
 here, the id is dynamic, and to identify that id, react-router-dom uses useParams hook
+
+```
+const params = useParams();
+const {id} = params;
+
+is eqals to
+
+const {id} = useParams();
+```
 
 
 
