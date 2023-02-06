@@ -37,7 +37,7 @@ Whenever you are typing anything in input field, that many times the component r
 
 - where to call api? Inside component -> everytime it will rerender for every small state change(every key press if we have input), so No. 
 
-- What we want? -> As im when the page loads, call the api and fill the data
+- What we want? -> As in when the page loads, call the api and fill the data
 
 - 2 ways
     1. page load -> API (300ms) -> render page (in 500ms) => normal JS way
@@ -61,6 +61,21 @@ Whenever you are typing anything in input field, that many times the component r
 
 - first render will happend and after that useEffect will be called
 
+- first call the data and then insert it to existing data
+- We cannot call the data directly to useEffect as it's not converted to async function
+- So create separate async function and call that function to useEffect.
+```
+async function getRestaurants() {
+    const data = await fetch(
+      'https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING'
+    );
+    const json = await data.json();
+    console.log(json);
+    setList(json?.data?.cards[2]?.data?.data?.cards);
+}
+```
+- Here note that, to access the exact data, we have to use optional chaining and set the default data as this one
+
 ## Shimmer UI
 
 - Dummy components we see before loading API data
@@ -68,7 +83,21 @@ Whenever you are typing anything in input field, that many times the component r
 ## Consitional rendering
 ```
 return (restaurant.lenght === 0) ? (<Shimmer />) : (<><div>API UI write in detail</div></>)
+
 ```
+
+## Making the search functionality work
+
+- We have to make two copies of restro
+    1. whenever we search, it should search from all restros
+    2. it shows only filtered restros
+- setAllRestro will be used only once during fetching, after that we only used setFilteredRestro.
+- in Conditional rendering, show shimmer only if allRestroList length is zero and not filteredRestro length is zero.
+- in Conditional rendering, when user search unkown hotel, then it should not show error(as in condition all restro length given)
+`if(!allRestro) return null;` 
+
+
+
 ## NOTE
 1. We can write only expression inside { } in React, not statement
 ```

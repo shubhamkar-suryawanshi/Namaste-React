@@ -34,13 +34,17 @@ body {
 
 /* Body styling */
 .body {
-  display: flex;
   padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-around;
 }
 
 .card {
   border: 1px solid black;
   margin: 10px;
+  width: 250px;
 }
 
 .card > img {
