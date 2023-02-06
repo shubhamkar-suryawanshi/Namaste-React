@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import { Restaurants } from '../constants';
 import RestaurantCard from './RestaurantCard';
@@ -15,15 +16,16 @@ const Body = () => {
   const [list, setList] = useState(Restaurants);
 
   return (
-    <>
+    <React.Fragment>
       <input
-        onChange={(e) => setInputValue(e.target.value)}
+        onChange={(e) => {
+          setInputValue(e.target.value);
+        }}
         value={inputValue}
       />
       <button
         onClick={() => {
-          const x = filterList(inputValue, list);
-          setList(x);
+          setList(filterList(inputValue, list));
         }}
       >
         Search
@@ -33,7 +35,7 @@ const Body = () => {
           <RestaurantCard key={r.data.id} {...r.data} />
         ))}
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

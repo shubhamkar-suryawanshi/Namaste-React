@@ -80,7 +80,7 @@ but it's not working, we are not able to add any value in input box on webpage =
 
 ## Lets make the Seach work
 
-- once click on button, need to filter the data(restolist) and then update the staolist => make state variable and the default data is restoList which we imported
+- once click on button, need to filter the data(restolist) and then update the restolist => make state variable and the default data is restoList which we imported
 
 - input is searchText and the restoList and based on that output, update the list
 
