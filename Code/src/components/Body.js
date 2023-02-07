@@ -1,44 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Restaurants } from '../constants';
+
 import RestaurantCard from './RestaurantCard';
 import Shimmer from './Shimmer';
 
-const filterData = (inputValue, list) => {
-  const filterD = list.filter((restos) =>
-    restos.data.name.toLowerCase().includes(inputValue.toLowerCase())
-  );
-  return filterD;
-};
+import { filterData } from '../shared/helper';
+import useList from '../Hooks/useList';
+import useOnline from '../Hooks/useOnline';
 
 const Body = () => {
   const [inputValue, setInputValue] = useState('');
-  // const [list, setList] = useState(Restaurants);
-  const [allList, setAllList] = useState([]);
-  const [filteredList, setFilteredList] = useState([]);
 
-  useEffect(() => {
-    getRestaurants();
-  }, []);
+  const { list, filteredList } = useList();
 
-  async function getRestaurants() {
-    const data = await fetch(
-      'https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING'
-    );
-    const json = await data.json();
-    // console.log(json);
-    setAllList(json.data.cards[2].data.data.cards);
-    setFilteredList(json.data.cards[2].data.data.cards);
-  }
-
-  // not render anything(early return)
-  if (!allList) return null;
+  if (!list) return null;
 
   // If nothing is matching after filter?
   // if (filteredList.length === 0)
   //   return <h1>Sorry, Your Favorite Restaurant not found</h1>;
 
-  return allList.length === 0 ? (
+  const isOnline = useOnline();
+
+  if (!isOnline) {
+    return <h1>Oops! You are Offline</h1>;
+  }
+
+  return list.length === 0 ? (
     <Shimmer />
   ) : (
     <React.Fragment>
@@ -50,7 +37,7 @@ const Body = () => {
       />
       <button
         onClick={() => {
-          setFilteredList(filterData(inputValue, allList));
+          setFilteredList(filterData(inputValue, list));
         }}
       >
         Search

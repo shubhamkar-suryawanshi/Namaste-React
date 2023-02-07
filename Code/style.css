@@ -54,3 +54,19 @@ body {
 .restro {
   display: flex;
 }
+
+/* Shimmer */
+
+.shimmer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.shimmer-card {
+  background-color: lightgrey;
+  margin: 10px;
+  width: 250px;
+  height: 300px;
+  box-sizing: border-box;
+}

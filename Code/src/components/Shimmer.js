@@ -1,6 +1,6 @@
 const Shimmer = () => {
   return (
-    <div className="card">
+    <div className="shimmer">
       {Array(15)
         .fill('')
         .map((e, index) => (
