@@ -70,3 +70,11 @@ body {
   height: 300px;
   box-sizing: border-box;
 }
+
+/* FAQs */
+.faq {
+  text-align: left;
+  border: 1px solid black;
+  margin: 15px;
+  padding: 15px;
+}

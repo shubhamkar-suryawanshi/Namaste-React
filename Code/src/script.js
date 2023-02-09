@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 
@@ -9,16 +9,41 @@ import Contact from './components/Contact';
 import Error from './components/Error';
 import Restaurant from './components/Restaurant';
 import Shimmer from './components/Shimmer';
+import FAQ from './components/FAQ';
+import MyContext from './shared/MyContext';
 
-const About = lazy(() => import('./components/About'));
+const About = lazy(() => {
+  return import('./components/About');
+});
+// const About = lazy(() => {import('./components/About')}); ==> why this didn't worked?
 
 const AppLayout = () => {
+  const [user, setUser] = useState({
+    name: 'Surya',
+    email: 'surya@surya.com',
+  });
   return (
-    <React.Fragment>
+    // <MyContext.Provider value={user}>
+    // replace user with default value
+
+    // <MyContext.Provider value={{
+    //   user: {
+    //     name: 'dummy',
+    //     email: 'dummy@surya.com'
+    //   },
+    // }}>
+
+    // replace it with useState value.
+    <MyContext.Provider
+      value={{
+        user: user,
+      }}
+    >
+      // with the help of setUser, uh can modify it
       <Header />
       <Outlet />
       <Footer />
-    </React.Fragment>
+    </MyContext.Provider>
   );
 };
 
@@ -43,6 +68,10 @@ const appRouter = createBrowserRouter([
       {
         path: '/contact',
         element: <Contact />,
+      },
+      {
+        path: '/faq',
+        element: <FAQ />,
       },
       {
         path: '/restaurant/:resId',
