@@ -11,7 +11,9 @@ function useList() {
   }, []);
 
   async function getRestaurants() {
-    const data = await fetch(FETCH_RESTAURANT_URL);
+    const data = await fetch(
+      'https://www.swiggy.com/dapi/restaurants/list/v5?lat=16.696534&lng=74.2421107&page_type=DESKTOP_WEB_LISTING'
+    );
     const json = await data.json();
     // console.log(json);
     setList(json.data.cards[2].data.data.cards);

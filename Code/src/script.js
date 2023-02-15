@@ -12,6 +12,10 @@ import Shimmer from './components/Shimmer';
 import FAQ from './components/FAQ';
 import MyContext from './shared/MyContext';
 
+import { Provider } from 'react-redux';
+import store from './shared/store';
+import Cart from './components/Cart';
+
 const About = lazy(() => {
   return import('./components/About');
 });
@@ -34,16 +38,18 @@ const AppLayout = () => {
     // }}>
 
     // replace it with useState value.
-    <MyContext.Provider
-      value={{
-        user: user,
-      }}
-    >
-      // with the help of setUser, uh can modify it
-      <Header />
-      <Outlet />
-      <Footer />
-    </MyContext.Provider>
+    <Provider store={store}>
+      <MyContext.Provider
+        value={{
+          user: user,
+        }}
+      >
+        {/* with the help of setUser, uh can modify it*/}
+        <Header />
+        <Outlet />
+        <Footer />
+      </MyContext.Provider>
+    </Provider>
   );
 };
 
@@ -76,6 +82,10 @@ const appRouter = createBrowserRouter([
       {
         path: '/restaurant/:resId',
         element: <Restaurant />,
+      },
+      {
+        path: '/cart',
+        element: <Cart />,
       },
     ],
   },

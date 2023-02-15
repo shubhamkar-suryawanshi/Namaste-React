@@ -30,12 +30,14 @@ const Body = () => {
   ) : (
     <React.Fragment>
       <input
+        className="py-1 px-5  ml-3 my-3  border border-gray-400 active:border-gray-400 rounded-l-full"
         onChange={(e) => {
           setInputValue(e.target.value);
         }}
         value={inputValue}
       />
       <button
+        className="p-1 rounded-r-full border border-gray-400 pr-2 bg-gray-400"
         onClick={() => {
           setFilteredList(filterData(inputValue, list));
         }}
@@ -47,7 +49,7 @@ const Body = () => {
           <RestaurantCard key={r.data.id} {...r.data} />
         ))}
         </div>*/}
-      <div className="body">
+      <div className="flex flex-wrap justify-around">
         {filteredList.map((r) => {
           return (
             <Link to={'/restaurant/' + r.data.id} key={r.data.id}>
