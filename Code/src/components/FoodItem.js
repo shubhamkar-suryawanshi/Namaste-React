@@ -1,11 +1,37 @@
-const FoodItem = ({ name, description, price }) => {
-  return (
-    <div className="p-3 m-2 text-left shadow-lg w-7/8">
-      <h2 className="font-bold">{name} </h2>
-      <h4>description: {description}</h4>
-      <h4>Rupees: {price / 100}</h4>
-    </div>
-  );
-};
+import React, { useState } from 'react';
+import CustomerList from './CustomerList';
+import List from '../List';
 
-export default FoodItem;
+function SearchCustomer() {
+  const [allData, setAllData] = useState(List);
+  const [filteredData, setFilteredData] = useState(List);
+  const [searchText, setSearchText] = useState();
+
+  function filterData(searchText, allData) {
+    const filterData = allData.filter(
+      (data) => data?.name?.toLowerCase()?.includes(searchText.toLowerCase()),
+      data?.location?.toLowerCase()?.includes(searchText.toLowerCase())
+    );
+
+    return filterData;
+  }
+
+  return (
+    <>
+      <div className="layout-row align-items-center justify-content-center mt-30">
+        <input
+          className="large mx-20 w-20"
+          data-testid="search-input"
+          value="Search"
+          placeholder="Enter search term (Eg: Phil)"
+          onChange={(e) => {
+            setSearchText(e.target.value);
+          }}
+        />
+      </div>
+      <CustomerList />
+    </>
+  );
+}
+
+export default SearchCustomer;

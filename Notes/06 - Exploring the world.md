@@ -80,7 +80,7 @@ async function getRestaurants() {
 
 - Dummy components we see before loading API data
 
-## Consitional rendering
+## Conditional rendering
 ```
 return (restaurant.lenght === 0) ? (<Shimmer />) : (<><div>API UI write in detail</div></>)
 
